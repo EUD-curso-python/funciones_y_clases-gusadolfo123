@@ -1,15 +1,16 @@
 global1 = 34
 
-def cambiar_global():
+def cambiar_global(val1):
     '''Cambiar una variable global
 
     Esta función debe asignarle a la variable global `global1` el valor que se
     le pasa como único argumento posicional.
     '''
-    pass
+    return val1
 
+global1 = cambiar_global(7)
 
-def anio_bisiesto():
+def anio_bisiesto(anio):
     '''Responder si el entero pasado como argumento es un año bisiesto
     
     Para determinar si un año es bisiesto, se deben tener en cuenta las 
@@ -21,9 +22,19 @@ def anio_bisiesto():
 
     Retorna True o False
     '''
-    pass
+    if (anio % 400 == 0):
+      return True
+    else:
+      if (anio % 100 == 0):
+        return False
+      else:
+        return (anio % 4 == 0)
+        
+      return False
 
-def contar_valles():
+#print(anio_bisiesto(2096))
+
+def contar_valles(lista):
     r'''Contar el número de valles
 
     Esta función debe recibir como argumento una lista de -1's, 0's y 1's, y lo 
@@ -41,9 +52,20 @@ def contar_valles():
     representados en la lista, que para el ejemplo que se acaba de mostrar es
     de 3 valles.
     '''
-    pass
+    aux = 0
+    neg = 0
+    for item in lista:
+      if (item == -1):
+        neg = 1
+      if (neg == 1 and item == 1):
+        aux += 1
+        neg = 0
 
-def saltando_rocas():
+    return aux
+
+#print(contar_valles([-1,1,0,1,1,-1,0,0,1,-1,1,1,-1,-1]))    
+  
+def saltando_rocas(lista):
     '''Mínimo número de saltos en las rocas
 
     Esta función hace parte de un juego en el que el jugador debe cruzar un río
@@ -57,7 +79,23 @@ def saltando_rocas():
     El objetivo es devolver el número mínimo de saltos que debe realizar el 
     jugador para ganar la partida
     '''
-    pass
+    aux = 0
+    saltos = 0
+    
+    for i in range(0, len(lista)-1):
+      if (aux == lista[i]):
+        saltos += lista[i]
+      
+      if (aux > 1):
+        aux = lista[i]
+      else:  
+        if (lista[i] == 0 and lista[i-1] == 1):
+          aux = 1
+        aux += lista[i]
+
+    return saltos
+    
+print(saltando_rocas([1, 1, 1, 0, 1, 0, 1, 1, 1, 1]))
 
 def pares_medias():
     '''Contar pares de medias
