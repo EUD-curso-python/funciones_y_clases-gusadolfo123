@@ -79,25 +79,19 @@ def saltando_rocas(lista):
     El objetivo es devolver el número mínimo de saltos que debe realizar el 
     jugador para ganar la partida
     '''
-    aux = 0
     saltos = 0
     
-    for i in range(0, len(lista)-1):
-      if (aux == lista[i]):
-        saltos += lista[i]
-      
-      if (aux > 1):
-        aux = lista[i]
-      else:  
-        if (lista[i] == 0 and lista[i-1] == 1):
-          aux = 1
-        aux += lista[i]
+    for i in range(2, len(lista)):
+      if(lista[i] == 1 and (lista[i] != lista[i-1])):
+        saltos += 1
+      elif (lista[i] == 1 and lista[i] == lista[i-1] and lista[i-1] == lista[i-2]):
+        saltos += 1
 
     return saltos
     
-print(saltando_rocas([1, 1, 1, 0, 1, 0, 1, 1, 1, 1]))
+#print(saltando_rocas([1, 1, 1, 0, 1, 0, 1, 1, 1]))
 
-def pares_medias():
+def pares_medias(lista):
     '''Contar pares de medias
 
     Esta función debe recibir como argumento una lista de enteros. Cada elemento
@@ -107,7 +101,20 @@ def pares_medias():
     uno de los colores que se encuentren en la lista, y los valores son la 
     cantidad de pares que se han encontrado para cada color.
     '''
-    pass
+    myDict = {}
+
+     # lista con valores sin repetir
+    listAux = list(dict.fromkeys(lista))
+
+    for el in listAux:
+      val_rep = int(str(lista.count(el) / 2).replace(',', '.').split('.')[0])
+
+      if (val_rep > 0):
+        myDict[el] = val_rep
+
+    return myDict
+    
+#print(pares_medias([7,1,2,2,3,3,4,4,5,1,1,2,1,7,7]))
 
 # Crear una clase llamada `ListaComa` que reciba en su constructor un iterable
 # con el valor inicial para una lista que se guardará en un atributo llamado 
@@ -115,8 +122,15 @@ def pares_medias():
 # los elementos del atributo `lista` unidos a través de comas. Ejemplo:
 # si `lista` es [1,2,3,4], __str__ debe devolver '1,2,3,4'
 
+class ListaComa:
+  def __init__(self, iterable):
+    self.lista = list(iterable)
+  
+  def __str__(self):
+    return ','.join([str(i) for i in self.lista])
 
-
+#myList = ListaComa([1,2,3,4])
+#print(str(myList))
 
 # Crear una clase llamada `Persona` que reciba en su constructor como 1er 
 # argumento un iterable con el valor inicial para una lista que se guardará en
@@ -134,8 +148,25 @@ def pares_medias():
 # si `nombres` es ['Juan', 'David'] y `apellidos` es ['Torres', 'Salazar'],
 # el método `nombre completo` debe devolver  'Juan David Torres Salazar'
 
+class Persona:
+  def __init__(self, nombres, apellidos):
+    eval1 = all(isinstance(i, str) for i in nombres)
+    eval2 = all(isinstance(i, str) for i in apellidos)
+
+    if not eval1:
+      raise Exception('Los elementos de nombres deben ser caracteres')
+    elif not eval2:
+      raise Exception('Los elementos de apellidos deben ser caracteres')
+    else:
+      self.nombres = [el.capitalize() for el in nombres]
+      self.apellidos = [el.capitalize() for el in apellidos]
+  
+  def nombre_completo(self):
+    return ' '.join(self.nombres + self.apellidos)
 
 
+#var1 = Persona(['gustavo', 'adolfo'],['moreno', 'muñoz'])
+#print(var1.nombre_completo())
 
 
 # Crear una clase llamada `Persona1` que herede de la clase `Persona`, y que en su
@@ -148,4 +179,19 @@ def pares_medias():
 # Ejemplo:
 # si `fecha_nacimiento` es 1985-10-21 y la fecha actual es 2020-10-20, el método
 # `edad` debe devover 35.
+import datetime
 
+class Persona1(Persona):
+  def __init__(self, nombres, apellidos, fecha_nacimiento):
+    super().__init__(nombres, apellidos)
+    fecha = fecha_nacimiento.split('-')
+    self.fecha_nacimiento = datetime.datetime.strptime(fecha_nacimiento, '%Y-%m-%d')
+
+  def edad(self):
+    isBiciesto = anio_bisiesto(self.fecha_nacimiento.year)
+    currentDate = datetime.datetime.utcnow()
+    print(currentDate.year, currentDate.month, currentDate.day)
+
+person2 = Persona1(['gustavo', 'adolfo'],['moreno', 'muñoz'], '1990-04-14')
+
+person2.edad()
