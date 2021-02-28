@@ -184,14 +184,20 @@ import datetime
 class Persona1(Persona):
   def __init__(self, nombres, apellidos, fecha_nacimiento):
     super().__init__(nombres, apellidos)
-    fecha = fecha_nacimiento.split('-')
-    self.fecha_nacimiento = datetime.datetime.strptime(fecha_nacimiento, '%Y-%m-%d')
+    self.fecha_nacimiento = fecha_nacimiento
 
   def edad(self):
-    isBiciesto = anio_bisiesto(self.fecha_nacimiento.year)
+    #isBiciesto = anio_bisiesto(self.fecha_nacimiento.year)
     currentDate = datetime.datetime.utcnow()
-    print(currentDate.year, currentDate.month, currentDate.day)
+    year = currentDate.year - self.fecha_nacimiento.year
+    if (currentDate.month < self.fecha_nacimiento.month):
+      year -= 1
+    elif (currentDate.month == self.fecha_nacimiento.month):
+      if (currentDate.day < self.fecha_nacimiento.day):
+        year -= 1
+    return year
+    #print(currentDate.year, currentDate.month, currentDate.day)
 
-person2 = Persona1(['gustavo', 'adolfo'],['moreno', 'muñoz'], '1990-04-14')
+person2 = Persona1(['gustavo', 'adolfo'],['moreno', 'muñoz'], datetime.datetime.strptime('1990-07-14', '%Y-%m-%d'))
 
-person2.edad()
+#print(person2.edad())
