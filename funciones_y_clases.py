@@ -80,16 +80,21 @@ def saltando_rocas(lista):
     jugador para ganar la partida
     '''
     saltos = 0
-    
-    for i in range(2, len(lista)):
-      if(lista[i] == 1 and (lista[i] != lista[i-1])):
-        saltos += 1
-      elif (lista[i] == 1 and lista[i] == lista[i-1] and lista[i-1] == lista[i-2]):
-        saltos += 1
+    pos1 = None
+    pos2 = None
 
+    for i in range(2, len(lista)-1):
+
+      if(lista[2] == 1):
+        saltos += 1
+      elif(lista[i] == 0 and lista[i-1] == 1):
+        saltos += 1
+      elif(lista[i] == 0 and lista[i-1] == 0 and lista[i-2] == 0):
+        saltos += 1
+      
     return saltos
     
-#print(saltando_rocas([1, 1, 1, 0, 1, 0, 1, 1, 1]))
+print(saltando_rocas([0, 1, 0, 1, 0, 0, 0, 0, 0, 0]))
 
 def pares_medias(lista):
     '''Contar pares de medias
@@ -107,8 +112,7 @@ def pares_medias(lista):
     listAux = list(dict.fromkeys(lista))
 
     for el in listAux:
-      val_rep = int(str(lista.count(el) / 2).replace(',', '.').split('.')[0])
-
+      val_rep = int(lista.count(el) / 2)
       if (val_rep > 0):
         myDict[el] = val_rep
 
